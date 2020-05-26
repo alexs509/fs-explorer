@@ -10,11 +10,14 @@ import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {TableModule} from 'primeng/table';
+import {TooltipModule} from 'primeng/tooltip';
+
 
 
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [CommonModule, SharedModule, HomeRoutingModule, InputTextModule, ButtonModule, InputSwitchModule, TableModule]
+  imports: [CommonModule, SharedModule, HomeRoutingModule, InputTextModule, ButtonModule, InputSwitchModule, TableModule,
+    TooltipModule]
 })
 export class HomeModule {}

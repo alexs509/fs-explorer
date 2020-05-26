@@ -10,8 +10,8 @@
   <div class="p-grid center">
     <div class="p-col">
       <div>Change view</div>
-      <span *ngIf="details" (click)="changeView()"><i class="pi pi-table"></i></span>
-      <span *ngIf="!details" (click)="changeView()"><i class="pi pi-list"></i></span>
+      <span class="pointer" *ngIf="details" (click)="changeView()"><i class="pi pi-table"></i></span>
+      <span class="pointer" *ngIf="!details" (click)="changeView()"><i class="pi pi-list"></i></span>
     </div>
     <div class="p-col">
       <div>Sort by name</div>
@@ -42,9 +42,9 @@
 <!-- Element view -->
 <div *ngIf="files && !details" class="p-grid p-align-center center">
   <div *ngFor="let file of files" class="p-col-6 p-md-3 p-lg-3 p-col-align-center">
-    <div class="file">
-      <i *ngIf="file.type == 'file'" class="pi pi-file-o"></i>
-      <i *ngIf="file.type == 'directory'" (click)="changeDir(file.name)" class="pi pi-folder"></i><br>
+    <div class="file pointer">
+      <i pTooltip="{{ file.created }}" *ngIf="file.type == 'file'" class="pi pi-file-o"></i>
+      <i pTooltip="{{ file.created }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)" class="pi pi-folder"></i><br>
       {{ file.name }}
     </div>
   </div>
