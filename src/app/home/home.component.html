@@ -63,7 +63,7 @@
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-file>
-          <tr>
+          <tr (click)="file.type == 'directory' ? changeDir(file.name) : ''" class="pointer">
               <td>{{file.name}}</td>
               <td>{{file.type}}</td>
               <td>{{file.size}}</td>
