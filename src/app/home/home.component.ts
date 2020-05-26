@@ -68,7 +68,6 @@ export class HomeComponent implements OnInit {
 
 
   setSearch() {
-    console.log(this.sortByName);
     this.files = this.copyFiles;
     if (this.files) {
 
@@ -82,13 +81,19 @@ export class HomeComponent implements OnInit {
         this.files = this.files.filter((keyword, index) => this.files.lastIndexOf(keyword) === index).sort((a, b) => b.size < a.size ? -1 : 1);
       }
       if (this.sortByCreated) {
-        this.files = this.files.filter((keyword, index) => this.files.lastIndexOf(keyword) === index).sort((a, b) => b.created < a.created ? -1 : 1);
+        this.files = this.files.slice().sort((a: any,b: any) => { return Date.parse(b.created) - Date.parse(a.created) })
       }
     }
   }
 
+  /**
+   * Reset all value of search by criteria
+   */
   resetSearch() {
     this.searchByChar = null;
+    this.sortByCreated = false;
+    this.sortByName = false;
+    this.sortBySize = false;
   }
 
   openFile(path: string): void {
