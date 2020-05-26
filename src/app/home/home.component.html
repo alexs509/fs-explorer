@@ -28,6 +28,8 @@
   </div>
 </div>
 
+<p-splitButton label="Save" icon="pi pi-check" (onClick)="save()" [model]="items"></p-splitButton>
+
 <div class="container">
   <div class="p-grid">
     <div class="p-col p-col-align-center">
@@ -77,3 +79,6 @@
 <div class="center" *ngIf="files.length == 0">
   <h2>No files/folders found</h2>
 </div>
+
+<!-- Toast Message -->
+<p-toast position="top-left"></p-toast>

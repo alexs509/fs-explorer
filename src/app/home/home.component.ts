@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import * as fs from 'fs-extra';
+import * as fs from 'fs';
 import { shell, ipcRenderer } from 'electron';
-import { stat, readdir } from 'fs';
 import { resolve, join } from 'path';
 import { instantiateInterface } from '@buttercup/file-interface';
+import {MessageService} from 'primeng/api';
+import {MenuItem} from 'primeng/api';
+
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  providers: [MessageService]
 })
 export class HomeComponent implements OnInit {
   currentPath: string = process.cwd();
@@ -24,12 +26,15 @@ export class HomeComponent implements OnInit {
   sortBySize: boolean = false;
   sortByCreated: boolean = false;
 
+  items: MenuItem[];
 
-  constructor() {
+
+  constructor( private messageService: MessageService ) {
     this.getAllFiles();
   }
 
   ngOnInit(): void {
+    this.initMenu();
   }
 
   /**
@@ -47,11 +52,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  createFile(): void {
+  createFile(filename: string): void {
     this.fsInterface.putFileContents(
-      { identifier: "<dir-id>" },
-      { identifier: null, name: "newfile.txt" },
-      "some data"
+      { identifier: this.currentPath },
+      { identifier: null, name: filename },
+      ""
     ).then(result => {
       console.log(result);
     });
@@ -111,4 +116,34 @@ export class HomeComponent implements OnInit {
   updateFiles() {
   }
 
+  initMenu() {
+    this.items = [
+      {label: 'Create', icon: 'pi pi-create', command: () => {
+          this.save();
+          this.createFile();
+      }},
+      {label: 'Delete', icon: 'pi pi-times', command: () => {
+          this.delete();
+      }},
+      {label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io'},
+      {separator: true},
+      {label: 'Setup', icon: 'pi pi-cog', routerLink: ['/']}
+  ];
+  }
+
+  save() {
+    this.messageService.add({severity:'success', summary:'Success', detail:'Data Created'});
+  }
+
+  update() {
+    this.messageService.add({severity:'success', summary:'Success', detail:'Data Updated'});
+}
+
+  delete() {
+    this.messageService.add({severity:'success', summary:'Success', detail:'Data Deleted'});
+  }
+
+  clear() {
+    this.messageService.clear();
+  }
 }

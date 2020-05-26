@@ -11,13 +11,18 @@ import {ButtonModule} from 'primeng/button';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {TableModule} from 'primeng/table';
 import {TooltipModule} from 'primeng/tooltip';
+import {MenubarModule} from 'primeng/menubar';
+import {MenuItem} from 'primeng/api';
+import {SplitButtonModule} from 'primeng/splitbutton';
 
-
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {ToastModule} from 'primeng/toast';
 
 
 @NgModule({
   declarations: [HomeComponent],
   imports: [CommonModule, SharedModule, HomeRoutingModule, InputTextModule, ButtonModule, InputSwitchModule, TableModule,
-    TooltipModule]
+    TooltipModule, MenubarModule, SplitButtonModule,MessageModule, MessagesModule, ToastModule ]
 })
 export class HomeModule {}
