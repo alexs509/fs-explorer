@@ -1,12 +1,7 @@
-<div class="container nav">
+<div class="nav">
   <div class="p-grid">
-    <div class="p-col-3">
-     <button (click)="back()" pButton type="button" label="Previous" class="ui-button-raised"></button>
-     <button style="    background-color: #484e53;
-            border: 1px solid #ffffff;" pButton type="button" label="S'abonner" ></button>
-<p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
-
-     <!-- <p-button (onClick)="back()" pButton type="button" label="Previous" class="ui-button-raised"></p-button> -->
+    <div class="p-col-12 p-md-3 p-lg-3">
+     <button (click)="back()" style="background-color: #484e53; border: 1px solid #ffffff;" pButton type="button" label="Previous" ></button>
     </div>
     <div class="p-col-9">
       <div class="path">{{ currentPath }}</div>
@@ -24,7 +19,6 @@
     </div>
   </div>
 </div>
-
 <div *ngIf="files" class="p-grid p-align-center center">
   <div *ngFor="let file of files" class="p-col-6 p-md-3 p-lg-3 p-col-align-center">
     <div class="file">

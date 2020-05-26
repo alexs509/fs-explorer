@@ -95,6 +95,8 @@
   },
   "dependencies": {
     "@angular/animations": "9.1.9",
+    "@angular/cdk": "9.2.4",
+    "@angular/forms": "^9.0.0 || ^10.0.0-0",
     "@buttercup/file-interface": "0.3.2",
     "fs-extra": "9.0.0",
     "primeflex": "1.1.0",
