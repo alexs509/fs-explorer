@@ -24,3 +24,10 @@ html, body {
   margin-right: 0em !important;
    margin-left: 0em !important;
 }
+
+body .ui-table .ui-table-tbody>tr:nth-child(2n) {
+  background-color: #FFF !important; 
+}
+body .ui-table .ui-table-tbody>tr>td {
+ border: 0px solid #c8c8c8 !important;
+}

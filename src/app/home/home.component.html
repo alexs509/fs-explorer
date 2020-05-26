@@ -67,7 +67,7 @@
               <td>{{file.name}}</td>
               <td>{{file.type}}</td>
               <td>{{file.size}}</td>
-              <td>{{file.created}}</td>
+              <td>{{file.created | date:'short'}}</td>
           </tr>
       </ng-template>
   </p-table>
