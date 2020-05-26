@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
    * Change view to list or with details on click
    */
   changeView(): void {
-     this.details = !this.details;
+    this.details = !this.details;
   }
 
   getAllFiles(): void {
@@ -44,6 +44,16 @@ export class HomeComponent implements OnInit {
       this.files = results;
       this.copyFiles = results;
       console.log(results);
+    });
+  }
+
+  createFile(): void {
+    this.fsInterface.putFileContents(
+      { identifier: "<dir-id>" },
+      { identifier: null, name: "newfile.txt" },
+      "some data"
+    ).then(result => {
+      console.log(result);
     });
   }
 
@@ -61,7 +71,7 @@ export class HomeComponent implements OnInit {
    * Remove all char after last '\' & update files directory
    */
   back(): void {
-    this.currentPath = this.currentPath.substring(0, this.currentPath.lastIndexOf("\\") + 0);
+    this.currentPath = join(this.currentPath, '../');
     this.getAllFiles();
     this.resetSearch();
   }
@@ -81,7 +91,7 @@ export class HomeComponent implements OnInit {
         this.files = this.files.filter((keyword, index) => this.files.lastIndexOf(keyword) === index).sort((a, b) => b.size < a.size ? -1 : 1);
       }
       if (this.sortByCreated) {
-        this.files = this.files.slice().sort((a: any,b: any) => { return Date.parse(b.created) - Date.parse(a.created) })
+        this.files = this.files.slice().sort((a: any, b: any) => { return Date.parse(b.created) - Date.parse(a.created) })
       }
     }
   }
