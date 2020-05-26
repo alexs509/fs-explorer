@@ -40,7 +40,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CoreModule,
     SharedModule,
     HomeModule,
-    MatInputModule,
     AppRoutingModule,
     InputTextModule,
     ButtonModule,
