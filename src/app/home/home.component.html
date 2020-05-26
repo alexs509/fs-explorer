@@ -28,7 +28,18 @@
   </div>
 </div>
 
-<p-splitButton label="Save" icon="pi pi-check" (onClick)="save()" [model]="items"></p-splitButton>
+<p-splitButton label="File" icon="pi pi-file" [model]="items"></p-splitButton>
+
+<!-- Modal for create new file -->
+<p-dialog header="Create new file" [(visible)]="displayCreateFile" styleClass="dialog-newfile">
+  <span style="margin: 20px;" class="ui-float-label">
+    <input [(ngModel)]="filename" id="float-input" type="text" size="30" pInputText> 
+    <label for="float-input">filename.xx</label>
+</span>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-pencil" label="Créer" (click)="createFile()"></button>
+</p-footer>
+</p-dialog>
 
 <div class="container">
   <div class="p-grid">

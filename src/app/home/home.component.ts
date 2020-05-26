@@ -3,8 +3,8 @@ import * as fs from 'fs';
 import { shell, ipcRenderer } from 'electron';
 import { resolve, join } from 'path';
 import { instantiateInterface } from '@buttercup/file-interface';
-import {MessageService} from 'primeng/api';
-import {MenuItem} from 'primeng/api';
+import { MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 
 
 @Component({
@@ -27,9 +27,10 @@ export class HomeComponent implements OnInit {
   sortByCreated: boolean = false;
 
   items: MenuItem[];
+  filename: string;
 
 
-  constructor( private messageService: MessageService ) {
+  constructor(private messageService: MessageService) {
     this.getAllFiles();
   }
 
@@ -49,16 +50,6 @@ export class HomeComponent implements OnInit {
       this.files = results;
       this.copyFiles = results;
       console.log(results);
-    });
-  }
-
-  createFile(filename: string): void {
-    this.fsInterface.putFileContents(
-      { identifier: this.currentPath },
-      { identifier: null, name: filename },
-      ""
-    ).then(result => {
-      console.log(result);
     });
   }
 
@@ -118,29 +109,50 @@ export class HomeComponent implements OnInit {
 
   initMenu() {
     this.items = [
-      {label: 'Create', icon: 'pi pi-create', command: () => {
-          this.save();
-          this.createFile();
-      }},
-      {label: 'Delete', icon: 'pi pi-times', command: () => {
+      {
+        label: 'Create', icon: 'pi pi-create', command: () => {
+          this.showDialog()
+        }
+      },
+      {
+        label: 'Delete', icon: 'pi pi-times', command: () => {
           this.delete();
-      }},
-      {label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io'},
-      {separator: true},
-      {label: 'Setup', icon: 'pi pi-cog', routerLink: ['/']}
-  ];
+        }
+      },
+      { label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io' },
+      { separator: true },
+      { label: 'Setup', icon: 'pi pi-cog', routerLink: ['/'] }
+    ];
+  }
+
+  displayCreateFile: boolean = false;
+
+  showDialog() {
+    this.displayCreateFile = true;
+  }
+
+  createFile(): void {
+    this.fsInterface.putFileContents(
+      { identifier: this.currentPath },
+      { identifier: null, name: this.filename },
+      ""
+    ).then(result => {
+      this.displayCreateFile = false;
+      this.getAllFiles();
+      this.filename = null;
+    });
   }
 
   save() {
-    this.messageService.add({severity:'success', summary:'Success', detail:'Data Created'});
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Created' });
   }
 
   update() {
-    this.messageService.add({severity:'success', summary:'Success', detail:'Data Updated'});
-}
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Updated' });
+  }
 
   delete() {
-    this.messageService.add({severity:'success', summary:'Success', detail:'Data Deleted'});
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Deleted' });
   }
 
   clear() {
