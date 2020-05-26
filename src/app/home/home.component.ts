@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   sortBySize: boolean = false;
   sortByCreated: boolean = false;
 
+  displayCreateFile: boolean = false;
   items: MenuItem[];
   filename: string;
 
@@ -89,17 +90,8 @@ export class HomeComponent implements OnInit {
       if (this.sortByCreated) {
         this.files = this.files.slice().sort((a: any, b: any) => { return Date.parse(b.created) - Date.parse(a.created) })
       }
-    }
-  }
 
-  /**
-   * Reset all value of search by criteria
-   */
-  resetSearch() {
-    this.searchByChar = null;
-    this.sortByCreated = false;
-    this.sortByName = false;
-    this.sortBySize = false;
+    }
   }
 
   openFile(path: string): void {
@@ -110,24 +102,22 @@ export class HomeComponent implements OnInit {
   initMenu() {
     this.items = [
       {
-        label: 'Create', icon: 'pi pi-create', command: () => {
-          this.showDialog()
+        label: 'Create', icon: 'pi pi-pencil', command: () => {
+          this.dialogCreateFile()
         }
       },
       {
         label: 'Delete', icon: 'pi pi-times', command: () => {
-          this.delete();
+          this.toast('success', 'Success', 'File deleted');
         }
       },
-      { label: 'Angular.io', icon: 'pi pi-info', url: 'http://angular.io' },
-      { separator: true },
-      { label: 'Setup', icon: 'pi pi-cog', routerLink: ['/'] }
     ];
   }
 
-  displayCreateFile: boolean = false;
-
-  showDialog() {
+  /**
+   * Dialog for create file
+   */
+  dialogCreateFile() {
     this.displayCreateFile = true;
   }
 
@@ -140,22 +130,25 @@ export class HomeComponent implements OnInit {
       this.displayCreateFile = false;
       this.getAllFiles();
       this.filename = null;
+      this.toast('success', 'Success', 'File created');
     });
   }
 
-  save() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Created' });
-  }
-
-  update() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Updated' });
-  }
-
-  delete() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data Deleted' });
+  toast(type: string, content: string, content2: string) {
+    this.messageService.add({ severity: type, summary: content, detail: content2 });
   }
 
   clear() {
     this.messageService.clear();
+  }
+
+  /**
+   * Reset all value of search by criteria
+   */
+  resetSearch() {
+    this.searchByChar = null;
+    this.sortByCreated = false;
+    this.sortByName = false;
+    this.sortBySize = false;
   }
 }

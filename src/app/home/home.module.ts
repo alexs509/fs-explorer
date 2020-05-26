@@ -18,6 +18,8 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
+import {MenuModule} from 'primeng/menu';
+
 import {DialogModule} from 'primeng/dialog';
 
 
@@ -25,6 +27,6 @@ import {DialogModule} from 'primeng/dialog';
 @NgModule({
   declarations: [HomeComponent],
   imports: [CommonModule, SharedModule, HomeRoutingModule, InputTextModule, ButtonModule, InputSwitchModule, TableModule,
-    TooltipModule, MenubarModule, SplitButtonModule,MessageModule, MessagesModule, ToastModule, DialogModule ]
+    TooltipModule, MenubarModule, SplitButtonModule,MessageModule, MessagesModule, ToastModule, DialogModule, MenuModule ]
 })
 export class HomeModule {}

@@ -1,45 +1,39 @@
 <div class="nav">
   <div class="p-grid">
     <div class="p-col-12 p-md-3 p-lg-3">
-     <button (click)="back()" style="background-color: #484e53; border: 1px solid #ffffff;" pButton type="button" label="Previous" ></button>
-    </div>
+      <button (click)="back()" style="background-color: #484e53; border: 1px solid #ffffff;" pButton type="button"
+        label="Previous"></button>
+<!--         <p-splitButton label="File" style="background-color: #40424c; color: #ffffff;" icon="pi pi-file" [model]="items" styleClass="ui-button-secondary"></p-splitButton> -->
+<p-menu #menu [popup]="true" [model]="items"></p-menu>
+<button type="button" style="background-color: #40424c; color: #ffffff;" pButton icon="pi pi-file" label="File" (click)="menu.toggle($event)"></button>    
+</div>
     <div class="p-col-12 p-md-9 p-lg-9">
       <div class="path">{{ currentPath }}</div>
     </div>
   </div>
-  <div class="p-grid center">
+  <div class="p-grid center sortby">
+    <div _ngcontent-uvn-c50="" class="p-col-12">
+      <h3>Search by criteria</h3>
+  </div>
     <div class="p-col">
-      <div>Change view</div>
+      <div>view</div>
       <span class="pointer" *ngIf="details" (click)="changeView()"><i class="pi pi-table"></i></span>
       <span class="pointer" *ngIf="!details" (click)="changeView()"><i class="pi pi-list"></i></span>
     </div>
     <div class="p-col">
-      <div>Sort by name</div>
+      <div class="label">name</div>
       <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortByName"></p-inputSwitch>
     </div>
     <div class="p-col">
-      <div>Sort by size</div>
+      <div class="label">size</div>
       <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortBySize"></p-inputSwitch>
     </div>
     <div class="p-col">
-      <div>Sort by created date</div>
+      <div class="label">created date</div>
       <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortByCreated"></p-inputSwitch>
     </div>
   </div>
 </div>
-
-<p-splitButton label="File" icon="pi pi-file" [model]="items"></p-splitButton>
-
-<!-- Modal for create new file -->
-<p-dialog header="Create new file" [(visible)]="displayCreateFile" styleClass="dialog-newfile">
-  <span style="margin: 20px;" class="ui-float-label">
-    <input [(ngModel)]="filename" id="float-input" type="text" size="30" pInputText> 
-    <label for="float-input">filename.xx</label>
-</span>
-  <p-footer>
-    <button type="button" pButton icon="pi pi-pencil" label="Créer" (click)="createFile()"></button>
-</p-footer>
-</p-dialog>
 
 <div class="container">
   <div class="p-grid">
@@ -52,12 +46,13 @@
   </div>
 </div>
 
-<!-- Element view -->
+<!-- List element view -->
 <div *ngIf="files && !details" class="p-grid p-align-center center">
   <div *ngFor="let file of files" class="p-col-6 p-md-3 p-lg-3 p-col-align-center">
     <div class="file pointer">
       <i pTooltip="{{ file.created }}" *ngIf="file.type == 'file'" class="pi pi-file-o"></i>
-      <i pTooltip="{{ file.created }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)" class="pi pi-folder"></i><br>
+      <i pTooltip="{{ file.created }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)"
+        class="pi pi-folder"></i><br>
       {{ file.name }}
     </div>
   </div>
@@ -68,28 +63,41 @@
   <div class="p-col-12 p-col-align-center">
     <p-table [value]="files">
       <ng-template pTemplate="header">
-          <tr>
-              <th>name</th>
-              <th>type</th>
-              <th>size</th>
-              <th>created</th>
-          </tr>
+        <tr>
+          <th>name</th>
+          <th>type</th>
+          <th>size</th>
+          <th>created</th>
+        </tr>
       </ng-template>
       <ng-template pTemplate="body" let-file>
-          <tr (click)="file.type == 'directory' ? changeDir(file.name) : ''" class="pointer">
-              <td>{{file.name}}</td>
-              <td>{{file.type}}</td>
-              <td>{{file.size}}</td>
-              <td>{{file.created | date:'short'}}</td>
-          </tr>
+        <tr (click)="file.type == 'directory' ? changeDir(file.name) : ''" class="pointer">
+          <td>{{file.name}}</td>
+          <td>{{file.type}}</td>
+          <td>{{file.size}}</td>
+          <td>{{file.created | date:'short'}}</td>
+        </tr>
       </ng-template>
-  </p-table>
+    </p-table>
   </div>
 </div>
 
+
+<!-- If no files found display this msg -->
 <div class="center" *ngIf="files.length == 0">
   <h2>No files/folders found</h2>
 </div>
 
 <!-- Toast Message -->
 <p-toast position="top-left"></p-toast>
+
+<!-- Modal for create new file -->
+<p-dialog header="Create new file" [(visible)]="displayCreateFile" styleClass="dialog-newfile">
+  <span style="margin: 20px;" class="ui-float-label">
+    <input [(ngModel)]="filename" id="float-input" type="text" size="30" pInputText>
+    <label for="float-input">filename.xx</label>
+  </span>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-plus" label="Créer" (click)="createFile()"></button>
+  </p-footer>
+</p-dialog>
