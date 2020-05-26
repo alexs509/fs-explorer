@@ -3,7 +3,7 @@
     <div class="p-col-12 p-md-3 p-lg-3">
      <button (click)="back()" style="background-color: #484e53; border: 1px solid #ffffff;" pButton type="button" label="Previous" ></button>
     </div>
-    <div class="p-col-9">
+    <div class="p-col-12 p-md-9 p-lg-9">
       <div class="path">{{ currentPath }}</div>
     </div>
   </div>
@@ -12,6 +12,18 @@
       <div>Change view</div>
       <span *ngIf="details" (click)="changeView()"><i class="pi pi-table"></i></span>
       <span *ngIf="!details" (click)="changeView()"><i class="pi pi-list"></i></span>
+    </div>
+    <div class="p-col">
+      <div>Sort by name</div>
+      <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortByName"></p-inputSwitch>
+    </div>
+    <div class="p-col">
+      <div>Sort by size</div>
+      <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortBySize"></p-inputSwitch>
+    </div>
+    <div class="p-col">
+      <div>Sort by created date</div>
+      <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortByCreated"></p-inputSwitch>
     </div>
   </div>
 </div>

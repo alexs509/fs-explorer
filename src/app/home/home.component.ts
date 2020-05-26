@@ -15,10 +15,14 @@ export class HomeComponent implements OnInit {
   currentPath: string = process.cwd();
   files: Array<any> = [];
   copyFiles: Array<any> = [];
-  searchByChar: string = null;
   checked: boolean;
   fsInterface = instantiateInterface("fs", { fs });
   details: boolean = false;
+
+  searchByChar: string = null;
+  sortByName: boolean = false;
+  sortBySize: boolean = false;
+  sortByCreated: boolean = false;
 
 
   constructor() {
@@ -64,11 +68,21 @@ export class HomeComponent implements OnInit {
 
 
   setSearch() {
+    console.log(this.sortByName);
     this.files = this.copyFiles;
     if (this.files) {
 
       if (this.searchByChar) {
         this.files = this.files.filter((d) => (d.name).toLowerCase().indexOf(this.searchByChar.toLowerCase()) !== -1)
+      }
+      if (this.sortByName) {
+        this.files = this.files.filter((keyword, index) => this.files.lastIndexOf(keyword) === index).sort((a, b) => a.name < b.name ? -1 : 1);
+      }
+      if (this.sortBySize) {
+        this.files = this.files.filter((keyword, index) => this.files.lastIndexOf(keyword) === index).sort((a, b) => b.size < a.size ? -1 : 1);
+      }
+      if (this.sortByCreated) {
+        this.files = this.files.filter((keyword, index) => this.files.lastIndexOf(keyword) === index).sort((a, b) => b.created < a.created ? -1 : 1);
       }
     }
   }
