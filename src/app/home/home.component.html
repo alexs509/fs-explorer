@@ -1,3 +1,36 @@
-<ul style="color: black;" *ngFor="let entry of entries">
-  <li><a style="color: black;" (click)="changeDir(entry)">{{entry.name}}</a></li>
-</ul>
+<div class="container nav">
+  <div class="p-grid">
+    <div class="p-col-3">
+     <button (click)="back()" pButton type="button" label="Previous" class="ui-button-raised"></button>
+     <button style="    background-color: #484e53;
+            border: 1px solid #ffffff;" pButton type="button" label="S'abonner" ></button>
+<p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+
+     <!-- <p-button (onClick)="back()" pButton type="button" label="Previous" class="ui-button-raised"></p-button> -->
+    </div>
+    <div class="p-col-9">
+      <div class="path">{{ currentPath }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="p-grid">
+    <div class="p-col p-col-align-center">
+      <span class="ui-float-label">
+        <input (keyup)="setSearch()" [(ngModel)]="searchByChar" id="float-input" type="text" size="30" pInputText>
+        <label for="float-input">Search by name</label>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="files" class="p-grid p-align-center center">
+  <div *ngFor="let file of files" class="p-col-6 p-md-3 p-lg-3 p-col-align-center">
+    <div class="file">
+      <i *ngIf="file.type == 'file'" class="pi pi-file-o"></i>
+      <i *ngIf="file.type == 'directory'" (click)="changeDir(file.name)" class="pi pi-folder"></i><br>
+      {{ file.name }}
+    </div>
+  </div>
+</div>
