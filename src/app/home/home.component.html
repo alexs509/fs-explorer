@@ -7,6 +7,13 @@
       <div class="path">{{ currentPath }}</div>
     </div>
   </div>
+  <div class="p-grid center">
+    <div class="p-col">
+      <div>Change view</div>
+      <span *ngIf="details" (click)="changeView()"><i class="pi pi-table"></i></span>
+      <span *ngIf="!details" (click)="changeView()"><i class="pi pi-list"></i></span>
+    </div>
+  </div>
 </div>
 
 <div class="container">
@@ -19,7 +26,9 @@
     </div>
   </div>
 </div>
-<div *ngIf="files" class="p-grid p-align-center center">
+
+<!-- Element view -->
+<div *ngIf="files && !details" class="p-grid p-align-center center">
   <div *ngFor="let file of files" class="p-col-6 p-md-3 p-lg-3 p-col-align-center">
     <div class="file">
       <i *ngIf="file.type == 'file'" class="pi pi-file-o"></i>
@@ -27,4 +36,32 @@
       {{ file.name }}
     </div>
   </div>
+</div>
+
+<!-- List with details View -->
+<div *ngIf="files && details" class="p-grid p-align-center center">
+  <div class="p-col-12 p-col-align-center">
+    <p-table [value]="files">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>name</th>
+              <th>type</th>
+              <th>size</th>
+              <th>created</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-file>
+          <tr>
+              <td>{{file.name}}</td>
+              <td>{{file.type}}</td>
+              <td>{{file.size}}</td>
+              <td>{{file.created}}</td>
+          </tr>
+      </ng-template>
+  </p-table>
+  </div>
+</div>
+
+<div class="center" *ngIf="files.length == 0">
+  <h2>No files/folders found</h2>
 </div>

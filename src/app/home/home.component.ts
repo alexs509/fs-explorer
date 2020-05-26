@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
   copyFiles: Array<any> = [];
   searchByChar: string = null;
   checked: boolean;
+  fsInterface = instantiateInterface("fs", { fs });
+  details: boolean = false;
 
 
   constructor() {
@@ -26,25 +28,40 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  fsInterface = instantiateInterface("fs", { fs });
+  /**
+   * Change view to list or with details on click
+   */
+  changeView(): void {
+     this.details = !this.details;
+  }
 
   getAllFiles(): void {
     this.fsInterface.getDirectoryContents({ identifier: this.currentPath }).then(results => {
       this.files = results;
       this.copyFiles = results;
+      console.log(results);
     });
   }
 
-
+  /**
+   * 
+   * @param newDir 
+   */
   changeDir(newDir: string): void {
     this.currentPath = join(this.currentPath, newDir);
     this.getAllFiles();
+    this.resetSearch();
   }
 
+  /**
+   * Remove all char after last '\' & update files directory
+   */
   back(): void {
     this.currentPath = this.currentPath.substring(0, this.currentPath.lastIndexOf("\\") + 0);
     this.getAllFiles();
+    this.resetSearch();
   }
+
 
   setSearch() {
     this.files = this.copyFiles;
