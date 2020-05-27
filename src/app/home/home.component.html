@@ -59,6 +59,7 @@
       {{ file.name }}
       <br>
       <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
+      <button *ngIf="btnRename && file.type == 'file'" type="button" pButton (click)="dialogRename(file.name)" icon="pi pi-pencil" label="rename"></button>
     </div>
   </div>
 </div>
@@ -77,7 +78,10 @@
       </ng-template>
       <ng-template pTemplate="body" let-file>
         <tr (click)="file.type == 'directory' ? changeDir(file.name) : ''" class="pointer">
-          <td>{{file.name}}</td>
+          <td>
+            <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
+            {{file.name}}
+          </td>
           <td>{{file.type}}</td>
           <td>{{file.size}}</td>
           <td>{{file.created | date:'short'}}</td>
@@ -104,5 +108,16 @@
   </span>
   <p-footer>
     <button type="button" pButton icon="pi pi-plus" label="Créer" (click)="createFile()"></button>
+  </p-footer>
+</p-dialog>
+
+<!-- Modal for rename file -->
+<p-dialog header="Rename file" [(visible)]="displayRenameModal" styleClass="dialog-newfile">
+  <span style="margin: 20px;" class="ui-float-label">
+    <input [(ngModel)]="filename" id="float-input" type="text" size="30" pInputText>
+    <label for="float-input">filename.xx</label>
+  </span>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-pencil" label="Rename" (click)="renameFile()"></button>
   </p-footer>
 </p-dialog>

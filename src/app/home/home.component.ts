@@ -14,7 +14,7 @@ import { MenuItem } from 'primeng/api';
   providers: [MessageService]
 })
 export class HomeComponent implements OnInit {
-  currentPath: string = process.cwd();
+  currentPath: string = __dirname;
   files: Array<any> = [];
   copyFiles: Array<any> = [];
   checked: boolean;
@@ -32,6 +32,10 @@ export class HomeComponent implements OnInit {
 
   listFiles: string[] = [];
   delete: boolean = false;
+
+  oldName: string = null;
+  displayRenameModal: boolean = false;
+  btnRename: boolean = false;
 
 
   constructor(private messageService: MessageService) {
@@ -97,11 +101,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  openFile(path: string): void {
-  }
-  updateFiles() {
-  }
-
   initMenu() {
     this.items = [
       {
@@ -110,8 +109,15 @@ export class HomeComponent implements OnInit {
         }
       },
       {
+        label: 'Rename', icon: 'pi pi-pencil', command: () => {
+          this.btnRename = !this.btnRename;
+          this.delete ? this.deleteView() : '';
+        }
+      },
+      {
         label: 'Delete', icon: 'pi pi-times', command: () => {
           this.deleteView();
+          this.btnRename ? this.btnRename = !this.btnRename : '';
         }
       },
     ];
@@ -135,6 +141,21 @@ export class HomeComponent implements OnInit {
       this.filename = null;
       this.toast('success', 'Information', 'File created');
     });
+  }
+
+  dialogRename(name: string) {
+    console.log(name);
+    this.oldName = name;
+    this.filename = name;
+    this.displayRenameModal = !this.displayRenameModal;
+  }
+
+  renameFile() {
+    fs.rename(this.oldName, this.filename, () => {
+      this.toast('info','Information', 'Files has been updated')
+    });
+    this.btnRename = false; 
+    this.getAllFiles();
   }
 
   deleteFiles(): void {
