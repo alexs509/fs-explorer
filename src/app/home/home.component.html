@@ -3,7 +3,6 @@
     <div class="p-col-12 p-md-3 p-lg-3">
       <button (click)="back()" style="background-color: #484e53; border: 1px solid #ffffff;" pButton type="button"
         label="Previous"></button>
-<!--         <p-splitButton label="File" style="background-color: #40424c; color: #ffffff;" icon="pi pi-file" [model]="items" styleClass="ui-button-secondary"></p-splitButton> -->
 <p-menu #menu [popup]="true" [model]="items"></p-menu>
 <button type="button" style="background-color: #40424c; color: #ffffff;" pButton icon="pi pi-file" label="File" (click)="menu.toggle($event)"></button>    
 </div>
@@ -37,6 +36,10 @@
 
 <div class="container">
   <div class="p-grid">
+    <div *ngIf="delete" class="p-col">
+      <button [disabled]="listFiles.length == 0" (click)="deleteFiles()" pButton type="button" label="Supprimer" class="ui-button-rounded ui-button-danger"></button>
+      <button (click)="deleteView()" pButton type="button" label="Annuler" class="ui-button-rounded ui-button-secondary"></button>
+    </div>
     <div class="p-col p-col-align-center">
       <span class="ui-float-label">
         <input (keyup)="setSearch()" [(ngModel)]="searchByChar" id="float-input" type="text" size="30" pInputText>
@@ -54,6 +57,8 @@
       <i pTooltip="{{ file.created }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)"
         class="pi pi-folder"></i><br>
       {{ file.name }}
+      <br>
+      <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
     </div>
   </div>
 </div>

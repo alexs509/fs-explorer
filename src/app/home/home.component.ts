@@ -30,6 +30,9 @@ export class HomeComponent implements OnInit {
   items: MenuItem[];
   filename: string;
 
+  listFiles: string[] = [];
+  delete: boolean = false;
+
 
   constructor(private messageService: MessageService) {
     this.getAllFiles();
@@ -39,12 +42,15 @@ export class HomeComponent implements OnInit {
     this.initMenu();
   }
 
-  /**
-   * Change view to list or with details on click
-   */
   changeView(): void {
     this.details = !this.details;
   }
+
+  deleteView(): void {
+    this.delete ? this.listFiles = [] : '';
+    this.delete = !this.delete;
+  }
+
 
   getAllFiles(): void {
     this.fsInterface.getDirectoryContents({ identifier: this.currentPath }).then(results => {
@@ -61,16 +67,13 @@ export class HomeComponent implements OnInit {
   changeDir(newDir: string): void {
     this.currentPath = join(this.currentPath, newDir);
     this.getAllFiles();
-    this.resetSearch();
+    this.reset();
   }
 
-  /**
-   * Remove all char after last '\' & update files directory
-   */
   back(): void {
     this.currentPath = join(this.currentPath, '../');
     this.getAllFiles();
-    this.resetSearch();
+    this.reset();
   }
 
 
@@ -102,13 +105,13 @@ export class HomeComponent implements OnInit {
   initMenu() {
     this.items = [
       {
-        label: 'Create', icon: 'pi pi-pencil', command: () => {
-          this.dialogCreateFile()
+        label: 'Create file', icon: 'pi pi-file', command: () => {
+          this.dialogBeforeCreateFile()
         }
       },
       {
         label: 'Delete', icon: 'pi pi-times', command: () => {
-          this.toast('success', 'Success', 'File deleted');
+          this.deleteView();
         }
       },
     ];
@@ -117,7 +120,7 @@ export class HomeComponent implements OnInit {
   /**
    * Dialog for create file
    */
-  dialogCreateFile() {
+  dialogBeforeCreateFile() {
     this.displayCreateFile = true;
   }
 
@@ -130,9 +133,20 @@ export class HomeComponent implements OnInit {
       this.displayCreateFile = false;
       this.getAllFiles();
       this.filename = null;
-      this.toast('success', 'Success', 'File created');
+      this.toast('success', 'Information', 'File created');
     });
   }
+
+  deleteFiles(): void {
+    this.listFiles.forEach(element => {
+      this.fsInterface.deleteFile({ identifier: element });
+    });
+    this.toast('info','Information', 'Files has been deleted')
+    this.deleteView();
+    this.getAllFiles();
+    this.reset();
+  }
+
 
   toast(type: string, content: string, content2: string) {
     this.messageService.add({ severity: type, summary: content, detail: content2 });
@@ -145,10 +159,11 @@ export class HomeComponent implements OnInit {
   /**
    * Reset all value of search by criteria
    */
-  resetSearch() {
+  reset() {
     this.searchByChar = null;
     this.sortByCreated = false;
     this.sortByName = false;
     this.sortBySize = false;
+    this.listFiles = [];
   }
 }

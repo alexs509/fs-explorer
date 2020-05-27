@@ -21,12 +21,14 @@ import {ToastModule} from 'primeng/toast';
 import {MenuModule} from 'primeng/menu';
 
 import {DialogModule} from 'primeng/dialog';
+import {CheckboxModule} from 'primeng/checkbox';
+
 
 
 
 @NgModule({
   declarations: [HomeComponent],
   imports: [CommonModule, SharedModule, HomeRoutingModule, InputTextModule, ButtonModule, InputSwitchModule, TableModule,
-    TooltipModule, MenubarModule, SplitButtonModule,MessageModule, MessagesModule, ToastModule, DialogModule, MenuModule ]
+    TooltipModule, MenubarModule, SplitButtonModule,MessageModule, MessagesModule, ToastModule, DialogModule, MenuModule, CheckboxModule ]
 })
 export class HomeModule {}
