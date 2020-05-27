@@ -4,7 +4,8 @@
       <button (click)="back()" style="background-color: #484e53; border: 1px solid #ffffff;" pButton type="button"
         label="Previous"></button>
 <p-menu #menu [popup]="true" [model]="items"></p-menu>
-<button type="button" style="background-color: #40424c; color: #ffffff;" pButton icon="pi pi-file" label="File" (click)="menu.toggle($event)"></button>    
+<button type="button" style="background-color: #40424c; color: #ffffff;" pButton icon="pi pi-file" label="File" (click)="menu.toggle($event)"></button>
+<button type="button" style="background-color: #40424c; color: #ffffff;" pButton icon="pi pi-plus" label="New window" (click)="newWindow()"></button>    
 </div>
     <div class="p-col-12 p-md-9 p-lg-9">
       <div class="path">{{ currentPath }}</div>

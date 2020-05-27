@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as fs from 'fs';
-import { shell, ipcRenderer } from 'electron';
+import { shell, ipcRenderer, BrowserWindow, remote } from 'electron';
 import { resolve, join } from 'path';
 import { instantiateInterface } from '@buttercup/file-interface';
 import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
+import { format } from 'url';
 
 
 @Component({
@@ -46,6 +47,26 @@ export class HomeComponent implements OnInit {
     this.initMenu();
   }
 
+  newWindow(): void {
+    const BrowserWindow = remote.BrowserWindow;
+    let win = new BrowserWindow({
+      height: 600,
+      width: 800,
+      webPreferences: {
+        nodeIntegration: true
+      }
+    });
+    win.on('closed', () => {
+      win = null
+    })
+
+    win.loadURL(format({
+      pathname: join(__dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true,
+    }));
+  }
+
   changeView(): void {
     this.details = !this.details;
   }
@@ -60,7 +81,9 @@ export class HomeComponent implements OnInit {
     this.fsInterface.getDirectoryContents({ identifier: this.currentPath }).then(results => {
       this.files = results;
       this.copyFiles = results;
-      console.log(results);
+    }).catch((error) => {
+      console.log(error)
+      this.toast('error', 'Error', 'Cannot access to this folder')
     });
   }
 
@@ -70,6 +93,7 @@ export class HomeComponent implements OnInit {
    */
   changeDir(newDir: string): void {
     this.currentPath = join(this.currentPath, newDir);
+    console.log(this.currentPath);
     this.getAllFiles();
     this.reset();
   }
@@ -152,9 +176,9 @@ export class HomeComponent implements OnInit {
 
   renameFile() {
     fs.rename(this.oldName, this.filename, () => {
-      this.toast('info','Information', 'Files has been updated')
+      this.toast('info', 'Information', 'Files has been updated')
     });
-    this.btnRename = false; 
+    this.btnRename = false;
     this.getAllFiles();
   }
 
@@ -162,7 +186,7 @@ export class HomeComponent implements OnInit {
     this.listFiles.forEach(element => {
       this.fsInterface.deleteFile({ identifier: element });
     });
-    this.toast('info','Information', 'Files has been deleted')
+    this.toast('info', 'Information', 'Files has been deleted')
     this.deleteView();
     this.getAllFiles();
     this.reset();
