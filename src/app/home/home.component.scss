@@ -47,6 +47,13 @@ i.icon-perso {
     }
 }
 
+.label {
+    font-size: 14px;
+    position: relative;
+    bottom: 37px;
+    left: 43px;
+}
+
 .ui-float-label>label {
     left: 4em !important;
 }
@@ -56,21 +63,51 @@ i.icon-perso {
     display: flex;
 }
 
+.input-search {
+    width: 100%;
+}
+
 .icon {
     width: 50px;
     &.refresh {
         cursor: pointer;
         width: 25px;
+        object-fit: contain;
         margin-right: 15px;
+    }
+    &_view {
+        position: relative;
+        bottom: 8px;
     }
 }
 
+span.search_form {
+    display: flex !important;
+}
+
 @media only screen and (max-device-width: 640px) {
+    .nav {
+        //text-align: center;
+    }
     .sortby .label {
         font-size: 14px;
     }
-
     .sortby h3 {
         margin: 0 20% 0 20%;
+    }
+    .input-search {
+        width: 70%;
+    }
+    .label {
+        //display: none;
+    }
+    span.search_form {
+        margin-bottom: 5px;
+        margin-left: 13%;
+        margin-right: 10%;
+    }
+    .vtop-mob {
+        margin-top: 8px;
+        margin-bottom: -10px;
     }
 }

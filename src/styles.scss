@@ -32,3 +32,11 @@ body .ui-table .ui-table-tbody>tr:nth-child(2n) {
 body .ui-table .ui-table-tbody>tr>td {
  border: 0px solid #c8c8c8 !important;
 }
+
+body .ui-selectbutton .ui-button {
+  background-color: #ffffff !important;
+  border: 1px solid #dadada;
+  color: #333333;
+  overflow: hidden;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}

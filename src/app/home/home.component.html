@@ -1,36 +1,35 @@
 <div class="nav">
   <div class="p-grid">
-    <div class="p-col-12 p-md-3 p-lg-3">
-      <button (click)="back()" style="background-color: #484e53; border: 1px solid #ffffff;" pButton type="button"
-        label="Previous"></button>
-<p-menu #menu [popup]="true" [model]="items"></p-menu>
-<button type="button" style="background-color: #40424c; color: #ffffff; border: 1px solid #ffffff;" pButton icon="pi pi-file" label="File" (click)="menu.toggle($event)"></button>
-<button type="button" style="background-color: #40424c; color: #ffffff; border: 1px solid #ffffff;" pButton icon="pi pi-plus" label="New window" (click)="newWindow()"></button>    
-</div>
-    <div class="p-col-12 p-md-9 p-lg-9">
-      
-      <div class="aa"><img (click)="refresh()" class="icon refresh" src="assets/icons/refresh.png"><div class="path">{{ currentPath }}</div></div>
+    <div class="p-col-12 p-md-8 p-lg-8">
+      <div class="aa">
+        <img (click)="back()" class="icon refresh" src="assets/icons/left-arrow.png">
+        <img (click)="refresh()" class="icon refresh" src="assets/icons/refresh.png">
+        <div class="path">{{ currentPath }}</div>
+      </div>
     </div>
-  </div>
-  <div class="p-grid center sortby">
-    <div _ngcontent-uvn-c50="" class="p-col-12">
-      <h3>Search by criteria</h3>
-  </div>
-    <div class="p-col">
-      <div>view</div>
-      <span class="pointer" *ngIf="details" (click)="changeView()"><i class="pi pi-table"></i></span>
-      <span class="pointer" *ngIf="!details" (click)="changeView()"><i class="pi pi-list"></i></span>
-    </div>
-    <div class="p-col">
-      <span class="ui-float-label">
-        <input (keyup)="setSearch()" [(ngModel)]="searchByChar" id="float-input" type="text" size="30" pInputText>
+    <div class="p-col-12 p-md-4 p-mg-4">
+      <span class="search_form ui-float-label">
+        <img (click)="refresh()" class="icon refresh" src="assets/icons/search.png">
+        <input class="input-search" (keyup)="setSearch()" [(ngModel)]="searchByChar" id="float-input" type="text" size="30" pInputText>
         <label for="float-input">Search by name</label>
       </span>
     </div>
-    <div class="p-col">
-      <p-selectButton (onChange)="setSearch()" [options]="types" [(ngModel)]="selectedType"></p-selectButton>
-    </div>
   </div>
+  <div style="margin-top: 10px;" class="p-grid">
+    <div class="p-col-12 p-md-12 p-lg-3">
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
+        <button type="button" style="background-color: #40424c; color: #ffffff; border: 1px solid #ffffff;" pButton icon="pi pi-file" label="File" (click)="menu.toggle($event)"></button>
+        <button type="button" style="background-color: #40424c; color: #ffffff; border: 1px solid #ffffff;" pButton icon="pi pi-plus" label="New window" (click)="newWindow()"></button>    
+    </div>
+    <div class="p-col-12 p-lg-offset-5 p-md-12 p-lg-4 vtop-mob">
+      <span class="label">sort by</span> <p-selectButton (onChange)="setSearch()" [options]="types" [(ngModel)]="selectedType"></p-selectButton>&nbsp;
+      <span class="label">change view</span>
+      <span class="pointer icon_view" *ngIf="details" (click)="changeView()"><i class="pi pi-table"></i></span>
+      <span class="pointer icon_view" *ngIf="!details" (click)="changeView()"><i class="pi pi-list"></i></span>
+    </div>
+    
+  </div>
+  
 </div>
 
 <div class="container">
