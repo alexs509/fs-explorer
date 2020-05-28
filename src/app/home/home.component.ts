@@ -6,6 +6,7 @@ import { instantiateInterface } from '@buttercup/file-interface';
 import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
 import { format } from 'url';
+import { AppConfig } from '../../environments/environment';
 
 
 
@@ -71,11 +72,19 @@ export class HomeComponent implements OnInit {
       win = null
     })
 
-    win.loadURL(format({
-      pathname: join(__dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true,
-    }));
+    console.log('AppConfig', AppConfig);
+    let status = AppConfig;
+
+    if(status.production) {
+      win.loadURL(format({
+        pathname: join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true,
+      }));
+    } else {
+      win.loadURL('http://localhost:4200');
+    }
+    
   }
 
   changeView(): void {

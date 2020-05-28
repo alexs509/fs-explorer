@@ -54,10 +54,11 @@
 <div *ngIf="files && !details" class="p-grid p-align-center center">
   <div *ngFor="let file of files" class="p-col-6 p-md-3 p-lg-3 p-col-align-center">
     <div class="file pointer">
-      <i pTooltip="{{ file.created }}" *ngIf="file.type == 'file'" class="pi pi-file-o"></i>
-      <i pTooltip="{{ file.created }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)"
+      <i pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'file'" class="pi pi-file-o"></i>
+      <i pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)"
         class="pi pi-folder"></i><br>
-      {{ file.name }}
+      {{ (file.name.length > 20) ? (file.name | slice:0:20) + '...' : file.name }}
+
       <br>
       <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
       <i *ngIf="btnRename && file.type == 'file'" (click)="dialogRename()" class="icon-perso pi pi-pencil"></i>
