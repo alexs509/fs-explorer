@@ -40,6 +40,14 @@
     margin: 5px 37% 5px 37%;
 }
 
+i.icon-perso {
+    font-size: 1.5em !important;
+    &:hover {
+        color: #6b6bc0;
+    }
+}
+
+
 @media only screen and (max-device-width: 640px) {
     .sortby .label {
         font-size: 14px;
