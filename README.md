@@ -46,11 +46,12 @@ npm install -g @angular/cli
 
 ## To build for development
 
-- **in a terminal window** -> npm start
+- **in a terminal window**
 
 ``` bash
-npm start
+npm run electron:local
 ```
+
 
 Voila! You can use your Angular + Electron app in a local development environment with hot reload !
 

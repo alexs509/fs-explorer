@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as fs from 'fs';
 import { shell, ipcRenderer, BrowserWindow, remote } from 'electron';
-import { resolve, join } from 'path';
+import { resolve, join, parse, sep } from 'path';
 import { instantiateInterface } from '@buttercup/file-interface';
 import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
@@ -57,7 +57,8 @@ export class HomeComponent implements OnInit {
     return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME' ];
   }
 
-  newWindow(): void {
+  newWindow(): void {    
+
     const BrowserWindow = remote.BrowserWindow;
     let win = new BrowserWindow({
       height: 600,
