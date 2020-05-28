@@ -47,6 +47,23 @@ i.icon-perso {
     }
 }
 
+.ui-float-label>label {
+    left: 4em !important;
+}
+
+.aa {
+    margin: 0px;
+    display: flex;
+}
+
+.icon {
+    width: 50px;
+    &.refresh {
+        cursor: pointer;
+        width: 25px;
+        margin-right: 15px;
+    }
+}
 
 @media only screen and (max-device-width: 640px) {
     .sortby .label {

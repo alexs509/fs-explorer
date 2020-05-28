@@ -8,7 +8,8 @@
 <button type="button" style="background-color: #40424c; color: #ffffff; border: 1px solid #ffffff;" pButton icon="pi pi-plus" label="New window" (click)="newWindow()"></button>    
 </div>
     <div class="p-col-12 p-md-9 p-lg-9">
-      <div class="path">{{ currentPath }}</div>
+      
+      <div class="aa"><img (click)="refresh()" class="icon refresh" src="assets/icons/refresh.png"><div class="path">{{ currentPath }}</div></div>
     </div>
   </div>
   <div class="p-grid center sortby">
@@ -21,32 +22,29 @@
       <span class="pointer" *ngIf="!details" (click)="changeView()"><i class="pi pi-list"></i></span>
     </div>
     <div class="p-col">
-      <div class="label">name</div>
-      <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortByName"></p-inputSwitch>
+      <span class="ui-float-label">
+        <input (keyup)="setSearch()" [(ngModel)]="searchByChar" id="float-input" type="text" size="30" pInputText>
+        <label for="float-input">Search by name</label>
+      </span>
     </div>
     <div class="p-col">
-      <div class="label">size</div>
-      <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortBySize"></p-inputSwitch>
-    </div>
-    <div class="p-col">
-      <div class="label">created date</div>
-      <p-inputSwitch (onChange)="setSearch()" [(ngModel)]="sortByCreated"></p-inputSwitch>
+      <p-selectButton (onChange)="setSearch()" [options]="types" [(ngModel)]="selectedType"></p-selectButton>
     </div>
   </div>
 </div>
 
 <div class="container">
   <div class="p-grid">
-    <div *ngIf="delete" class="p-col">
+    <div *ngIf="delete" class="p-col p-col-align-center">
       <button [disabled]="listFiles.length == 0" (click)="deleteFiles()" pButton type="button" label="Supprimer" class="ui-button-rounded ui-button-danger"></button>
       <button (click)="deleteView()" pButton type="button" label="Annuler" class="ui-button-rounded ui-button-secondary"></button>
     </div>
-    <div class="p-col p-col-align-center">
+    <!-- <div class="p-col p-col-align-center">
       <span class="ui-float-label">
         <input (keyup)="setSearch()" [(ngModel)]="searchByChar" id="float-input" type="text" size="30" pInputText>
         <label for="float-input">Search by name</label>
       </span>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -54,14 +52,14 @@
 <div *ngIf="files && !details" class="p-grid p-align-center center">
   <div *ngFor="let file of files" class="p-col-6 p-md-3 p-lg-3 p-col-align-center">
     <div class="file pointer">
-      <i pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'file'" class="pi pi-file-o"></i>
-      <i pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)"
-        class="pi pi-folder"></i><br>
+      <img pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'file'" class="icon" src="assets/icons/file.png">
+      <img pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)" class="icon" src="assets/icons/folder.png">
+      <br>
       {{ (file.name.length > 20) ? (file.name | slice:0:20) + '...' : file.name }}
 
       <br>
       <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
-      <i *ngIf="btnRename && file.type == 'file'" (click)="dialogRename()" class="icon-perso pi pi-pencil"></i>
+      <i *ngIf="btnRename && file.type == 'file'" (click)="dialogRename(file.name)" class="icon-perso pi pi-pencil"></i>
     </div>
   </div>
 </div>
@@ -82,7 +80,7 @@
         <tr (click)="file.type == 'directory' ? changeDir(file.name) : ''" class="pointer">
           <td>
             <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
-            <i *ngIf="btnRename && file.type == 'file'" (click)="dialogRename()" class="icon-perso pi pi-pencil"></i>
+            <i *ngIf="btnRename && file.type == 'file'" (click)="dialogRename(file.name)" class="icon-perso pi pi-pencil"></i>
             {{file.name}}
           </td>
           <td>{{file.type}}</td>

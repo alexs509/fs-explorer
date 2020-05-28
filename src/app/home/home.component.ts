@@ -25,13 +25,16 @@ export class HomeComponent implements OnInit {
   details: boolean = false;
 
   searchByChar: string = null;
-  sortByName: boolean = false;
-  sortBySize: boolean = false;
-  sortByCreated: boolean = false;
+  types = [
+    {label: 'Size', value: 'size'},
+    {label: 'Date', value: 'date'},
+    {label: 'Name', value: 'name'}
+  ];
+  selectedType: string = null;
 
   displayCreateFile: boolean = false;
   items: MenuItem[];
-  filename: string;
+  filename: string = null;
 
   listFiles: string[] = [];
   delete: boolean = false;
@@ -91,6 +94,20 @@ export class HomeComponent implements OnInit {
     this.details = !this.details;
   }
 
+  refresh(): void {
+    setTimeout(() => {
+      this.currentPath = this.getUserProfile();
+
+    }, 100);
+    setTimeout(() => {
+      this.getAllFiles();
+
+    }, 300);
+    setTimeout(() => {
+      this.reset();
+    }, 500);
+  }
+
   deleteView(): void {
     this.delete ? this.listFiles = [] : '';
     this.delete = !this.delete;
@@ -133,13 +150,13 @@ export class HomeComponent implements OnInit {
       if (this.searchByChar) {
         this.files = this.files.filter((d) => (d.name).toLowerCase().indexOf(this.searchByChar.toLowerCase()) !== -1)
       }
-      if (this.sortByName) {
+      if (this.selectedType == 'name') {
         this.files = this.files.filter((keyword, index) => this.files.lastIndexOf(keyword) === index).sort((a, b) => a.name < b.name ? -1 : 1);
       }
-      if (this.sortBySize) {
+      if (this.selectedType == 'size') {
         this.files = this.files.filter((keyword, index) => this.files.lastIndexOf(keyword) === index).sort((a, b) => b.size < a.size ? -1 : 1);
       }
-      if (this.sortByCreated) {
+      if (this.selectedType == 'date') {
         this.files = this.files.slice().sort((a: any, b: any) => { return Date.parse(b.created) - Date.parse(a.created) })
       }
 
@@ -189,18 +206,21 @@ export class HomeComponent implements OnInit {
   }
 
   dialogRename(name: string) {
-    console.log(name);
     this.oldName = name;
     this.filename = name;
     this.displayRenameModal = !this.displayRenameModal;
   }
 
   renameFile() {
-    fs.rename(this.oldName, this.filename, () => {
+    fs.rename(join(this.currentPath, this.oldName), join(this.currentPath, this.filename), () => {
       this.toast('info', 'Information', 'Files has been updated')
     });
+    this.displayRenameModal = false;
     this.btnRename = false;
-    this.getAllFiles();
+    setTimeout(() => {
+      this.getAllFiles();
+    }, 1000);
+    
   }
 
   deleteFiles(): void {
@@ -227,9 +247,6 @@ export class HomeComponent implements OnInit {
    */
   reset() {
     this.searchByChar = null;
-    this.sortByCreated = false;
-    this.sortByName = false;
-    this.sortBySize = false;
-    this.listFiles = [];
+    //this.listFiles = [];
   }
 }
