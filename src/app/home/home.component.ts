@@ -57,7 +57,6 @@ export class HomeComponent implements OnInit {
    * Determine the OS and return homedir
    */
   getUserProfile(): string {
-    console.log(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME' ]);
     return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME' ];
   }
 
@@ -75,9 +74,7 @@ export class HomeComponent implements OnInit {
       win = null
     })
 
-    console.log('AppConfig', AppConfig);
     let status = AppConfig;
-
     if(status.production) {
       win.loadURL(format({
         pathname: join(__dirname, 'index.html'),
@@ -119,7 +116,7 @@ export class HomeComponent implements OnInit {
       this.files = results;
       this.copyFiles = results;
     }).catch((error) => {
-      console.log(error)
+      console.error(error)
       this.toast('error', 'Error', 'You havent privilege to access this folder')
       this.back()
     });
@@ -131,7 +128,6 @@ export class HomeComponent implements OnInit {
    */
   changeDir(newDir: string): void {
     this.currentPath = join(this.currentPath, newDir);
-    console.log(this.currentPath);
     this.getAllFiles();
     this.reset();
   }
@@ -247,6 +243,10 @@ export class HomeComponent implements OnInit {
    */
   reset() {
     this.searchByChar = null;
+    this.displayCreateFile = false;
+    this.displayRenameModal = false;
+    this.delete = false;
+    this.btnRename = false;
     //this.listFiles = [];
   }
 }

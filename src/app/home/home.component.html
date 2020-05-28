@@ -59,7 +59,7 @@
 
       <br>
       <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
-      <i *ngIf="btnRename && file.type == 'file'" (click)="dialogRename(file.name)" class="icon-perso pi pi-pencil"></i>
+      <img class="icon refresh" *ngIf="btnRename && file.type == 'file'" (click)="dialogRename(file.name)" src="assets/icons/edit.png">
     </div>
   </div>
 </div>
@@ -80,7 +80,8 @@
         <tr (click)="file.type == 'directory' ? changeDir(file.name) : ''" class="pointer">
           <td>
             <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
-            <i *ngIf="btnRename && file.type == 'file'" (click)="dialogRename(file.name)" class="icon-perso pi pi-pencil"></i>
+            <!-- <i *ngIf="btnRename && file.type == 'file'" (click)="dialogRename(file.name)" class="icon-perso pi pi-pencil"></i> -->
+            <img class="icon refresh" *ngIf="btnRename && file.type == 'file'" (click)="dialogRename(file.name)" src="assets/icons/edit.png">
             {{file.name}}
           </td>
           <td>{{file.type}}</td>
