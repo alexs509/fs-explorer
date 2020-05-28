@@ -8,6 +8,7 @@ import { MenuItem } from 'primeng/api';
 import { format } from 'url';
 
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,7 +16,7 @@ import { format } from 'url';
   providers: [MessageService]
 })
 export class HomeComponent implements OnInit {
-  currentPath: string = __dirname;
+  currentPath: string = this.getUserProfile();
   files: Array<any> = [];
   copyFiles: Array<any> = [];
   checked: boolean;
@@ -41,10 +42,19 @@ export class HomeComponent implements OnInit {
 
   constructor(private messageService: MessageService) {
     this.getAllFiles();
+    this.currentPath = this.getUserProfile();
   }
 
   ngOnInit(): void {
     this.initMenu();
+  }
+
+  /**
+   * Determine the OS and return homedir
+   */
+  getUserProfile(): string {
+    console.log(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME' ]);
+    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME' ];
   }
 
   newWindow(): void {
@@ -83,7 +93,8 @@ export class HomeComponent implements OnInit {
       this.copyFiles = results;
     }).catch((error) => {
       console.log(error)
-      this.toast('error', 'Error', 'Cannot access to this folder')
+      this.toast('error', 'Error', 'You havent privilege to access this folder')
+      this.back()
     });
   }
 

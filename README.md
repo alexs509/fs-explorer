@@ -25,7 +25,7 @@ With this sample, you can :
 Clone this repository locally :
 
 ``` bash
-git clone https://github.com/maximegris/angular-electron.git
+git clone https://github.com/alexs509/fs-explorer.git
 ```
 
 Install dependencies with npm :
@@ -47,6 +47,10 @@ npm install -g @angular/cli
 ## To build for development
 
 - **in a terminal window** -> npm start
+
+``` bash
+npm start
+```
 
 Voila! You can use your Angular + Electron app in a local development environment with hot reload !
 
