@@ -58,6 +58,17 @@ The application code is managed by `main.ts`. In this sample, the app runs with 
 The Angular component contains an example of Electron and NodeJS native lib import.
 You can disable "Developer Tools" by commenting `win.webContents.openDevTools();` in `main.ts`.
 
+
+The build and create an executable file with windows OS (--platform value : win32/darwin/linux)
+
+- **in a terminal window**
+
+``` bash
+electron-packager . --platform=win32 --overwrite --icon=src/assets/icons/home.ico
+```
+
+
+
 ## Included Commands
 
 |Command|Description|
