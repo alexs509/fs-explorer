@@ -101,11 +101,10 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.getAllFiles();
 
-    }, 300);
+    }, 800);
     setTimeout(() => {
       this.reset();
-    }, 500);
-    remote.getCurrentWindow().reload();
+    }, 1000);
   }
 
   deleteView(): void {
@@ -115,13 +114,17 @@ export class HomeComponent implements OnInit {
 
 
   getAllFiles(): void {
+    this.copyFiles = [];
     this.fsInterface.getDirectoryContents({ identifier: this.currentPath }).then(results => {
       this.files = results;
       this.copyFiles = results;
     }).catch((error) => {
       console.error(error)
       this.toast('error', 'Error', 'You havent privilege to access this folder')
-      this.back()
+      setTimeout(() => {
+          this.back();
+      }, 500);
+      
     });
   }
 
@@ -141,6 +144,13 @@ export class HomeComponent implements OnInit {
   back(): void {
     this.currentPath = join(this.currentPath, '../');
     this.getAllFiles();
+
+    
+    
+    setTimeout(() => {
+      console.log(this.copyFiles);
+      this.copyFiles.length == 0 ? this.currentPath = this.getUserProfile() : '' ;
+    }, 800);
     this.reset();
   }
 
