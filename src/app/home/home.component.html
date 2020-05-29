@@ -45,7 +45,7 @@
 <div *ngIf="files && !details" class="p-grid p-align-center center">
   <div *ngFor="let file of files" class="p-col-6 p-md-3 p-lg-3 p-col-align-center">
     <div class="file pointer">
-      <img pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'file'" (click)="openFile(file.identifier)" class="icon" src="assets/icons/file.png">
+      <img pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'file'" (click)="openFile(file.identifier, file.name)" class="icon" src="assets/icons/file.png">
       <img pTooltip="{{ file.created | date:'short' }}" *ngIf="file.type == 'directory'" (click)="changeDir(file.name)" class="icon" src="assets/icons/folder.png">
       <br>
       {{ (file.name.length > 20) ? (file.name | slice:0:20) + '...' : file.name }}
@@ -129,8 +129,11 @@
 
 <!-- Modal open file -->
 <p-dialog header="Open File" [(visible)]="statOpenFile" styleClass="dialog-newfile">
-  <div>
+  <div *ngIf="!imgSrc">
     {{ contentTxt }}
+  </div>
+  <div *ngIf="imgSrc">
+    <img width="250px" [src]="imgSrc">
   </div>
   <p-footer>
     <button type="button" pButton icon="pi pi-save" label="Saved"></button>

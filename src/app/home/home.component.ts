@@ -7,6 +7,7 @@ import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
 import { format } from 'url';
 import { AppConfig } from '../../environments/environment';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -48,9 +49,10 @@ export class HomeComponent implements OnInit {
 
   contentTxt: any = null;
   statOpenFile: boolean = false;
+  imgSrc: SafeUrl = "";
 
 
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: MessageService, private sanitizer: DomSanitizer) {
     this.getAllFiles();
     this.currentPath = this.getUserProfile();
   }
@@ -114,38 +116,26 @@ export class HomeComponent implements OnInit {
     this.statOpenFile = !this.statOpenFile;
   } 
 
-  openFile(file: any): void {
+   getSantizeUrl(url : string) {
+    return ;
+  }
+
+  openFile(file: any, name: string): void {
+    this.imgSrc = null;
+    let type = name.slice(-3);
+    if(['png','jpg', 'JPG', 'PNG'].includes(type)) {
+      this.statOpenFile = true;
+      this.imgSrc = this.sanitizer.bypassSecurityTrustUrl(file);
+    } else {
+      console.log('txt');
     this.contentTxt = null;
     this.statOpenFile = true;
     fs.readFile(file, 'utf8', (err, f) => {
       this.contentTxt = f;
     });
   }
-
-  /* openImg(filepaths, bookmarks) {
-    this.openImg1();
-    this.openImg2(filepaths, bookmarks);
   }
-
-  openImg1() {
-    remote.dialog.showOpenDialog(remote.getCurrentWindow(),
-   {
-    filters: [
-      {name: 'Images', extensions: ['png']}
-    ]
-   });
-  }
-
-  openImg2(filepaths, bookmarks) {
-    var _img = fs.readFileSync(filepaths[0]).toString('base64');
-    //example for .png
-    var _out = '<img src="data:image/png;base64,' + _img + '" />';
-    //render/display
-    var _target = document.getElementById('image_container');
-    _target.insertAdjacentHTML('beforeend', _out);
-    return;
-}; */
-
+  
   deleteView(): void {
     this.delete ? this.listFiles = [] : '';
     this.delete = !this.delete;
