@@ -46,6 +46,9 @@ export class HomeComponent implements OnInit {
   
   listFolder: [];
 
+  contentTxt: any = null;
+  statOpenFile: boolean = false;
+
 
   constructor(private messageService: MessageService) {
     this.getAllFiles();
@@ -106,6 +109,42 @@ export class HomeComponent implements OnInit {
       this.reset();
     }, 1000);
   }
+
+  openModalFileContent() {
+    this.statOpenFile = !this.statOpenFile;
+  } 
+
+  openFile(file: any): void {
+    this.contentTxt = null;
+    this.statOpenFile = true;
+    fs.readFile(file, 'utf8', (err, f) => {
+      this.contentTxt = f;
+    });
+  }
+
+  /* openImg(filepaths, bookmarks) {
+    this.openImg1();
+    this.openImg2(filepaths, bookmarks);
+  }
+
+  openImg1() {
+    remote.dialog.showOpenDialog(remote.getCurrentWindow(),
+   {
+    filters: [
+      {name: 'Images', extensions: ['png']}
+    ]
+   });
+  }
+
+  openImg2(filepaths, bookmarks) {
+    var _img = fs.readFileSync(filepaths[0]).toString('base64');
+    //example for .png
+    var _out = '<img src="data:image/png;base64,' + _img + '" />';
+    //render/display
+    var _target = document.getElementById('image_container');
+    _target.insertAdjacentHTML('beforeend', _out);
+    return;
+}; */
 
   deleteView(): void {
     this.delete ? this.listFiles = [] : '';
@@ -263,8 +302,8 @@ export class HomeComponent implements OnInit {
     fs.rename(join(this.currentPath, this.oldName), join(this.foldername.identifier, this.oldName), () => {
       this.toast('info', 'Information', 'Files has been moved')
     });
-    this.displayRenameModal = false;
-    this.btnRename = false;
+    this.displayMoveModal = false;
+    this.btnMove = false;
     setTimeout(() => {
       this.getAllFiles();
     }, 1000);
