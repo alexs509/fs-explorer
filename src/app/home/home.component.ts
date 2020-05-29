@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   displayCreateFile: boolean = false;
   items: MenuItem[];
   filename: string = null;
+  foldername: any;
 
   listFiles: string[] = [];
   delete: boolean = false;
@@ -39,6 +40,11 @@ export class HomeComponent implements OnInit {
   oldName: string = null;
   displayRenameModal: boolean = false;
   btnRename: boolean = false;
+
+  displayMoveModal: boolean = false;
+  btnMove: boolean = false;
+  
+  listFolder: [];
 
 
   constructor(private messageService: MessageService) {
@@ -99,6 +105,7 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.reset();
     }, 500);
+    remote.getCurrentWindow().reload();
   }
 
   deleteView(): void {
@@ -177,6 +184,13 @@ export class HomeComponent implements OnInit {
           this.btnRename ? this.btnRename = !this.btnRename : '';
         }
       },
+      {
+        label: 'Move', icon: 'pi pi-save', command: () => {
+          this.btnMove = !this.btnMove;
+          this.btnRename ? this.btnRename = !this.btnRename : '';
+          this.delete ? this.deleteView() : '';
+        }
+      },
     ];
   }
 
@@ -226,6 +240,31 @@ export class HomeComponent implements OnInit {
     this.deleteView();
     this.getAllFiles();
     this.reset();
+  }
+
+  moveDialog(name: string): void {
+    this.oldName = name;
+    this.filename = name;
+    this.displayMoveModal = !this.displayMoveModal;
+    this.getAllCurrentFolder();
+  }
+
+  moveFile(): void {
+    fs.rename(join(this.currentPath, this.oldName), join(this.foldername.identifier, this.oldName), () => {
+      this.toast('info', 'Information', 'Files has been moved')
+    });
+    this.displayRenameModal = false;
+    this.btnRename = false;
+    setTimeout(() => {
+      this.getAllFiles();
+    }, 1000);
+  }
+
+  getAllCurrentFolder() {
+    this.listFolder = [];
+    this.fsInterface.getDirectoryContents({ identifier: this.currentPath }).then((results: any) => {
+      this.listFolder = results.filter((d) => { return d.type == 'directory' });
+    });
   }
 
 

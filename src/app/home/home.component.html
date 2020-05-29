@@ -59,6 +59,7 @@
       <br>
       <p-checkbox *ngIf="delete && file.type == 'file'" name="groupname" value="{{ file.identifier }}" [(ngModel)]="listFiles"></p-checkbox>
       <img class="icon refresh" *ngIf="btnRename && file.type == 'file'" (click)="dialogRename(file.name)" src="assets/icons/edit.png">
+      <img class="icon refresh" *ngIf="btnMove && file.type == 'file'" (click)="moveDialog(file.name)" src="assets/icons/folder.png">
     </div>
   </div>
 </div>
@@ -119,5 +120,13 @@
   </span>
   <p-footer>
     <button type="button" pButton icon="pi pi-pencil" label="Rename" (click)="renameFile()"></button>
+  </p-footer>
+</p-dialog>
+
+<!-- Modal for move file -->
+<p-dialog header="Move file to another folder" [(visible)]="displayMoveModal" styleClass="dialog-newfile">
+  <p-dropdown [options]="listFolder" [(ngModel)]="foldername" placeholder="Select a folder" optionLabel="name" [showClear]="true"></p-dropdown>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-save" label="Move" (click)="moveFile()"></button>
   </p-footer>
 </p-dialog>

@@ -46,3 +46,11 @@ body .ui-selectbutton .ui-button.ui-state-active {
   border-color: #007ad9;
   color: #007ad9 !important;
 }
+
+body .ui-dropdown {
+  background: #ffffff;
+  /* margin-bottom: 94px; */
+  margin: 0px 50px 150px 50px;
+  border: 1px solid #a6a6a6;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
