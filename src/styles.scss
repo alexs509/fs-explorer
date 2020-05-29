@@ -40,3 +40,9 @@ body .ui-selectbutton .ui-button {
   overflow: hidden;
   transition: background-color 0.2s, box-shadow 0.2s;
 }
+
+body .ui-selectbutton .ui-button.ui-state-active {
+  background-color: #007ad9;
+  border-color: #007ad9;
+  color: #007ad9 !important;
+}

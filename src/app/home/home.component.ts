@@ -8,8 +8,6 @@ import { MenuItem } from 'primeng/api';
 import { format } from 'url';
 import { AppConfig } from '../../environments/environment';
 
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,15 +18,14 @@ export class HomeComponent implements OnInit {
   currentPath: string = this.getUserProfile();
   files: Array<any> = [];
   copyFiles: Array<any> = [];
-  checked: boolean;
   fsInterface = instantiateInterface("fs", { fs });
   details: boolean = false;
 
   searchByChar: string = null;
   types = [
-    {label: 'Size', value: 'size'},
-    {label: 'Date', value: 'date'},
-    {label: 'Name', value: 'name'}
+    { label: 'Size', value: 'size' },
+    { label: 'Date', value: 'date' },
+    { label: 'Name', value: 'name' }
   ];
   selectedType: string = null;
 
@@ -57,11 +54,10 @@ export class HomeComponent implements OnInit {
    * Determine the OS and return homedir
    */
   getUserProfile(): string {
-    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME' ];
+    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
   }
 
-  newWindow(): void {    
-
+  newWindow(): void {
     const BrowserWindow = remote.BrowserWindow;
     let win = new BrowserWindow({
       height: 600,
@@ -75,7 +71,7 @@ export class HomeComponent implements OnInit {
     })
 
     let status = AppConfig;
-    if(status.production) {
+    if (status.production) {
       win.loadURL(format({
         pathname: join(__dirname, 'index.html'),
         protocol: 'file:',
@@ -84,7 +80,7 @@ export class HomeComponent implements OnInit {
     } else {
       win.loadURL('http://localhost:4200');
     }
-    
+
   }
 
   changeView(): void {
@@ -132,6 +128,9 @@ export class HomeComponent implements OnInit {
     this.reset();
   }
 
+  /**
+   * go previous path
+   */
   back(): void {
     this.currentPath = join(this.currentPath, '../');
     this.getAllFiles();
@@ -216,7 +215,7 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.getAllFiles();
     }, 1000);
-    
+
   }
 
   deleteFiles(): void {
@@ -230,6 +229,12 @@ export class HomeComponent implements OnInit {
   }
 
 
+  /**
+   * display toast msg with params
+   * @param type 
+   * @param content 
+   * @param content2 
+   */
   toast(type: string, content: string, content2: string) {
     this.messageService.add({ severity: type, summary: content, detail: content2 });
   }
@@ -247,6 +252,5 @@ export class HomeComponent implements OnInit {
     this.displayRenameModal = false;
     this.delete = false;
     this.btnRename = false;
-    //this.listFiles = [];
   }
 }
